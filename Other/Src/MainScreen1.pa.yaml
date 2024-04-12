@@ -1,0 +1,865 @@
+MainScreen1:
+  Control: Screen
+  Variant: copilotAppSinglePage_Offline_ver1.0
+  Children:
+  - ScreenContainer1:
+      Control: GroupContainer
+      Variant: verticalAutoLayoutContainer
+      Properties:
+        Fill: =RGBA(250, 250, 250, 1)
+        Height: =Parent.Height
+        LayoutAlignItems: =LayoutAlignItems.Stretch
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutGap: =15
+        LayoutMode: =LayoutMode.Auto
+        PaddingBottom: =16
+        PaddingLeft: =16
+        PaddingRight: =16
+        PaddingTop: =16
+        Width: =Parent.Width
+      Children:
+      - BodyContainer1:
+          Control: GroupContainer
+          Variant: horizontalAutoLayoutContainer
+          Properties:
+            AlignInContainer: =AlignInContainer.Stretch
+            FillPortions: =1
+            LayoutGap: =16
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            PaddingBottom: =2
+            PaddingLeft: =2
+            PaddingRight: =2
+            PaddingTop: =2
+          Children:
+          - DeleteConfirmDialogContainer1:
+              Control: GroupContainer
+              Variant: verticalAutoLayoutContainer
+              Properties:
+                AlignInContainer: =AlignInContainer.Stretch
+                FillPortions: =7
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutMinHeight: =100
+                LayoutMinWidth: =250
+                LayoutMode: =LayoutMode.Auto
+                Visible: =If(deleteMode, true, false)
+                Width: =0
+              Children:
+              - ConfirmDeleteButtonBarContainer1:
+                  Control: GroupContainer
+                  Variant: horizontalAutoLayoutContainer
+                  Properties:
+                    AlignInContainer: =AlignInContainer.Stretch
+                    FillPortions: =1
+                    LayoutGap: =15
+                    LayoutJustifyContent: =LayoutJustifyContent.Center
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                    LayoutWrap: =true
+                  Children:
+                  - ConfirmDeleteButton1:
+                      Control: Button
+                      Properties:
+                        OnSelect: |-
+                          =Remove([@Inventory], selectedRecord); If(IsEmpty(Errors([@Inventory], selectedRecord)), UpdateContext( { CurrentItem: First([@Inventory]), itemSelected: false, editMode: false, newMode: false, deleteMode: false }));
+                        Text: ="Delete"
+                        LayoutMinHeight: =40
+                        LayoutMinWidth: =160
+                  - CancelDeleteButton1:
+                      Control: Button
+                      Properties:
+                        OnSelect: |-
+                          =UpdateContext({ deleteMode: false, deleteCancelled: true })
+                        Text: ="Cancel"
+                        LayoutMinHeight: =40
+                        LayoutMinWidth: =160
+              - ConfirmDeletionLabel1:
+                  Control: Label
+                  Properties:
+                    Text: ="Are you sure you want to delete this record?"
+                    Align: =Align.Center
+                    AlignInContainer: =AlignInContainer.Stretch
+                    FillPortions: =1
+                    LayoutMinHeight: =40
+                    LayoutMinWidth: =150
+          - RightContainer1:
+              Control: GroupContainer
+              Variant: verticalAutoLayoutContainer
+              Properties:
+                AlignInContainer: =AlignInContainer.Stretch
+                FillPortions: =7
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutGap: =16
+                LayoutMinHeight: =100
+                LayoutMinWidth: =250
+                LayoutMode: =LayoutMode.Auto
+                PaddingBottom: =2
+                PaddingLeft: =2
+                PaddingRight: =2
+                PaddingTop: =2
+                Visible: =If(Or(deleteMode, And(MainScreen1.Size = ScreenSize.Small, !newMode, !editMode, !itemSelected)), false, true)
+                Width: =0
+              Children:
+              - MainContainer1:
+                  Control: GroupContainer
+                  Variant: verticalAutoLayoutContainer
+                  Properties:
+                    AlignInContainer: =AlignInContainer.Stretch
+                    Fill: =RGBA(255, 255, 255, 1)
+                    FillPortions: =1
+                    LayoutDirection: =LayoutDirection.Vertical
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                  Children:
+                  - Form1:
+                      Control: Form
+                      Layout: vertical
+                      Properties:
+                        OnFailure: =Notify("Cannot save. Please check if there are errors in the form.", NotificationType.Error)
+                        OnSuccess: |-
+                          =UpdateContext({ CurrentItem: Self.LastSubmit, editMode: false, newMode: false })
+                        DataSource: =Inventory
+                        DefaultMode: =If(newMode, FormMode.New, editMode, FormMode.Edit, FormMode.View)
+                        Item: =RecordsGallery1.Selected
+                        AlignInContainer: =AlignInContainer.Stretch
+                        FillPortions: =1
+                        LayoutMinHeight: =250
+                        LayoutMinWidth: =300
+                        NumberOfColumns: =2
+                      Children:
+                      - Product Name_DataCard1:
+                          Control: TypedDataCard
+                          Variant: textualEditCard
+                          Properties:
+                            DataField: ="cra5a_productname"
+                            Default: =ThisItem.'Product Name'
+                            DisplayName: =DataSourceInfo([@Inventory],DataSourceInfo.DisplayName,cra5a_productname)
+                            MaxLength: =DataSourceInfo([@Inventory], DataSourceInfo.MaxLength, cra5a_productname)
+                            Update: =DataCardValue1.Text
+                            DisplayMode: =Parent.DisplayMode
+                            Height: =50
+                            Width: =458
+                          Children:
+                          - StarVisible1:
+                              Control: Label
+                              Properties:
+                                Text: ="*"
+                                Align: =Align.Center
+                                FontWeight: =FontWeight.Semibold
+                                Height: =DataCardKey1.Height
+                                PaddingLeft: =0
+                                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                                Width: =30
+                                Wrap: =false
+                                Y: =DataCardKey1.Y
+                          - ErrorMessage1:
+                              Control: Label
+                              Properties:
+                                Live: =Live.Assertive
+                                Text: =Parent.Error
+                                AutoHeight: =true
+                                Color: =RGBA(168, 0, 0, 1)
+                                DisabledColor: =RGBA(168, 0, 0, 1)
+                                FontWeight: =FontWeight.Semibold
+                                Height: =10
+                                PaddingBottom: =0
+                                PaddingLeft: =0
+                                PaddingRight: =0
+                                PaddingTop: =0
+                                Size: =13
+                                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                                Width: =Parent.Width - 60
+                                X: =30
+                                Y: =DataCardValue1.Y + DataCardValue1.Height
+                          - DataCardValue1:
+                              Control: Text
+                              Properties:
+                                Default: =Parent.Default
+                                DelayOutput: =true
+                                MaxLength: =Parent.MaxLength
+                                Tooltip: =Parent.DisplayName
+                                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                                DisplayMode: =Parent.DisplayMode
+                                PaddingLeft: =5
+                                RadiusBottomLeft: =0
+                                RadiusBottomRight: =0
+                                RadiusTopLeft: =0
+                                RadiusTopRight: =0
+                                Width: =Parent.Width - 60
+                                X: =30
+                                Y: =DataCardKey1.Y + DataCardKey1.Height + 5
+                          - DataCardKey1:
+                              Control: Label
+                              Properties:
+                                Text: =Parent.DisplayName
+                                AutoHeight: =true
+                                FontWeight: =FontWeight.Semibold
+                                Height: =34
+                                PaddingLeft: =0
+                                Width: =Parent.Width - 60
+                                Wrap: =false
+                                X: =30
+                                Y: =10
+                      - Quantity_DataCard1:
+                          Control: TypedDataCard
+                          Variant: numberEditCard
+                          Properties:
+                            DataField: ="cra5a_quantity"
+                            Default: =ThisItem.Quantity
+                            DisplayName: =DataSourceInfo([@Inventory],DataSourceInfo.DisplayName,cra5a_quantity)
+                            Update: =Value(DataCardValue2.Text)
+                            DisplayMode: =Parent.DisplayMode
+                            Height: =50
+                            Width: =458
+                            X: =1
+                          Children:
+                          - StarVisible2:
+                              Control: Label
+                              Properties:
+                                Text: ="*"
+                                Align: =Align.Center
+                                FontWeight: =FontWeight.Semibold
+                                Height: =DataCardKey2.Height
+                                PaddingLeft: =0
+                                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                                Width: =30
+                                Wrap: =false
+                                Y: =DataCardKey2.Y
+                          - ErrorMessage2:
+                              Control: Label
+                              Properties:
+                                Live: =Live.Assertive
+                                Text: =Parent.Error
+                                AutoHeight: =true
+                                Color: =RGBA(168, 0, 0, 1)
+                                DisabledColor: =RGBA(168, 0, 0, 1)
+                                FontWeight: =FontWeight.Semibold
+                                Height: =10
+                                PaddingBottom: =0
+                                PaddingLeft: =0
+                                PaddingRight: =0
+                                PaddingTop: =0
+                                Size: =13
+                                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                                Width: =Parent.Width - 60
+                                X: =30
+                                Y: =DataCardValue2.Y + DataCardValue2.Height
+                          - DataCardValue2:
+                              Control: Text
+                              Properties:
+                                Default: =Parent.Default
+                                DelayOutput: =true
+                                Tooltip: =Parent.DisplayName
+                                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                                DisplayMode: =Parent.DisplayMode
+                                Format: =TextFormat.Number
+                                PaddingLeft: =5
+                                RadiusBottomLeft: =0
+                                RadiusBottomRight: =0
+                                RadiusTopLeft: =0
+                                RadiusTopRight: =0
+                                Width: =Parent.Width - 60
+                                X: =30
+                                Y: =DataCardKey2.Y + DataCardKey2.Height + 5
+                          - DataCardKey2:
+                              Control: Label
+                              Properties:
+                                Text: =Parent.DisplayName
+                                AutoHeight: =true
+                                FontWeight: =FontWeight.Semibold
+                                Height: =34
+                                PaddingLeft: =0
+                                Width: =Parent.Width - 60
+                                Wrap: =false
+                                X: =30
+                                Y: =10
+                      - Product ID_DataCard1:
+                          Control: TypedDataCard
+                          Variant: textualEditCard
+                          Properties:
+                            DataField: ="cra5a_productid"
+                            Default: =ThisItem.'Product ID'
+                            DisplayName: =DataSourceInfo([@Inventory],DataSourceInfo.DisplayName,cra5a_productid)
+                            MaxLength: =DataSourceInfo([@Inventory], DataSourceInfo.MaxLength, cra5a_productid)
+                            Required: =true
+                            Update: =DataCardValue3.Text
+                            DisplayMode: =Parent.DisplayMode
+                            Height: =50
+                            Width: =458
+                            Y: =1
+                          Children:
+                          - StarVisible3:
+                              Control: Label
+                              Properties:
+                                Text: ="*"
+                                Align: =Align.Center
+                                FontWeight: =FontWeight.Semibold
+                                Height: =DataCardKey3.Height
+                                PaddingLeft: =0
+                                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                                Width: =30
+                                Wrap: =false
+                                Y: =DataCardKey3.Y
+                          - ErrorMessage3:
+                              Control: Label
+                              Properties:
+                                Live: =Live.Assertive
+                                Text: =Parent.Error
+                                AutoHeight: =true
+                                Color: =RGBA(168, 0, 0, 1)
+                                DisabledColor: =RGBA(168, 0, 0, 1)
+                                FontWeight: =FontWeight.Semibold
+                                Height: =10
+                                PaddingBottom: =0
+                                PaddingLeft: =0
+                                PaddingRight: =0
+                                PaddingTop: =0
+                                Size: =13
+                                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                                Width: =Parent.Width - 60
+                                X: =30
+                                Y: =DataCardValue3.Y + DataCardValue3.Height
+                          - DataCardValue3:
+                              Control: Text
+                              Properties:
+                                Default: =Parent.Default
+                                DelayOutput: =true
+                                MaxLength: =Parent.MaxLength
+                                Tooltip: =Parent.DisplayName
+                                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                                DisplayMode: =Parent.DisplayMode
+                                PaddingLeft: =5
+                                RadiusBottomLeft: =0
+                                RadiusBottomRight: =0
+                                RadiusTopLeft: =0
+                                RadiusTopRight: =0
+                                Width: =Parent.Width - 60
+                                X: =30
+                                Y: =DataCardKey3.Y + DataCardKey3.Height + 5
+                          - DataCardKey3:
+                              Control: Label
+                              Properties:
+                                Text: =Parent.DisplayName
+                                AutoHeight: =true
+                                FontWeight: =FontWeight.Semibold
+                                Height: =34
+                                PaddingLeft: =0
+                                Width: =Parent.Width - 60
+                                Wrap: =false
+                                X: =30
+                                Y: =10
+                      - Price_DataCard1:
+                          Control: TypedDataCard
+                          Variant: currencyEditCard
+                          Properties:
+                            DataField: ="cra5a_price"
+                            Default: =ThisItem.Price
+                            DisplayName: =DataSourceInfo([@Inventory],DataSourceInfo.DisplayName,cra5a_price)
+                            Update: =Value(DataCardValue4.Text)
+                            DisplayMode: =Parent.DisplayMode
+                            Height: =50
+                            Width: =458
+                            X: =1
+                            Y: =1
+                          Children:
+                          - StarVisible4:
+                              Control: Label
+                              Properties:
+                                Text: ="*"
+                                Align: =Align.Center
+                                FontWeight: =FontWeight.Semibold
+                                Height: =DataCardKey4.Height
+                                PaddingLeft: =0
+                                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                                Width: =30
+                                Wrap: =false
+                                Y: =DataCardKey4.Y
+                          - ErrorMessage4:
+                              Control: Label
+                              Properties:
+                                Live: =Live.Assertive
+                                Text: =Parent.Error
+                                AutoHeight: =true
+                                Color: =RGBA(168, 0, 0, 1)
+                                DisabledColor: =RGBA(168, 0, 0, 1)
+                                FontWeight: =FontWeight.Semibold
+                                Height: =10
+                                PaddingBottom: =0
+                                PaddingLeft: =0
+                                PaddingRight: =0
+                                PaddingTop: =0
+                                Size: =13
+                                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                                Width: =Parent.Width - 60
+                                X: =30
+                                Y: =DataCardValue4.Y + DataCardValue4.Height
+                          - DataCardValue4:
+                              Control: Text
+                              Properties:
+                                Default: =Parent.Default
+                                DelayOutput: =true
+                                Tooltip: =Parent.DisplayName
+                                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                                DisplayMode: =Parent.DisplayMode
+                                Format: =TextFormat.Number
+                                PaddingLeft: =5
+                                RadiusBottomLeft: =0
+                                RadiusBottomRight: =0
+                                RadiusTopLeft: =0
+                                RadiusTopRight: =0
+                                Width: =Parent.Width - 60
+                                X: =30
+                                Y: =DataCardKey4.Y + DataCardKey4.Height + 5
+                          - DataCardKey4:
+                              Control: Label
+                              Properties:
+                                Text: =Parent.DisplayName
+                                AutoHeight: =true
+                                FontWeight: =FontWeight.Semibold
+                                Height: =34
+                                PaddingLeft: =0
+                                Width: =Parent.Width - 60
+                                Wrap: =false
+                                X: =30
+                                Y: =10
+                      - Price (Base)_DataCard1:
+                          Control: TypedDataCard
+                          Variant: USCurrencyViewCard
+                          Properties:
+                            DataField: ="cra5a_price_base"
+                            Default: =ThisItem.'Price (Base)'
+                            DisplayName: =DataSourceInfo([@Inventory],DataSourceInfo.DisplayName,cra5a_price_base)
+                            DisplayMode: =DisplayMode.View
+                            Height: =50
+                            Width: =458
+                            Y: =2
+                          Children:
+                          - DataCardValue5:
+                              Control: Label
+                              Properties:
+                                Text: =Text(Parent.Default, "$###.##")
+                                DisplayMode: =Parent.DisplayMode
+                                PaddingLeft: =0
+                                PaddingRight: =0
+                                PaddingTop: =0
+                                Width: =Parent.Width - 60
+                                X: =30
+                                Y: =DataCardKey5.Y + DataCardKey5.Height + 5
+                          - DataCardKey5:
+                              Control: Label
+                              Properties:
+                                Text: =Parent.DisplayName
+                                AutoHeight: =true
+                                FontWeight: =FontWeight.Semibold
+                                Height: =34
+                                PaddingLeft: =0
+                                Width: =Parent.Width - 60
+                                Wrap: =false
+                                X: =30
+                                Y: =10
+                      - Category_DataCard1:
+                          Control: TypedDataCard
+                          Variant: comboBoxOptionSetMultiEditCard
+                          Properties:
+                            DataField: ="cra5a_category"
+                            Default: =ThisItem.Category
+                            DisplayName: =DataSourceInfo([@Inventory],DataSourceInfo.DisplayName,cra5a_category)
+                            Update: =DataCardValue6.SelectedItems.Value
+                            DisplayMode: =Parent.DisplayMode
+                            Height: =50
+                            Width: =458
+                            X: =1
+                            Y: =2
+                          Children:
+                          - StarVisible5:
+                              Control: Label
+                              Properties:
+                                Text: ="*"
+                                Align: =Align.Center
+                                FontWeight: =FontWeight.Semibold
+                                Height: =DataCardKey6.Height
+                                PaddingLeft: =0
+                                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                                Width: =30
+                                Wrap: =false
+                                Y: =DataCardKey6.Y
+                          - ErrorMessage5:
+                              Control: Label
+                              Properties:
+                                Live: =Live.Assertive
+                                Text: =Parent.Error
+                                AutoHeight: =true
+                                Color: =RGBA(168, 0, 0, 1)
+                                DisabledColor: =RGBA(168, 0, 0, 1)
+                                FontWeight: =FontWeight.Semibold
+                                Height: =10
+                                PaddingBottom: =0
+                                PaddingLeft: =0
+                                PaddingRight: =0
+                                PaddingTop: =0
+                                Size: =13
+                                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                                Width: =Parent.Width - 60
+                                X: =30
+                                Y: =DataCardValue6.Y + DataCardValue6.Height
+                          - DataCardValue6:
+                              Control: Combobox
+                              Properties:
+                                DefaultSelectedItems: =Parent.Default
+                                IsSearchable: =false
+                                Items: =Choices('Category (Inventory)')
+                                Tooltip: =Parent.DisplayName
+                                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                                DisplayMode: =Parent.DisplayMode
+                                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                                Width: =Parent.Width - 60
+                                X: =30
+                                Y: =DataCardKey6.Y + DataCardKey6.Height + 5
+                          - DataCardKey6:
+                              Control: Label
+                              Properties:
+                                Text: =Parent.DisplayName
+                                AutoHeight: =true
+                                FontWeight: =FontWeight.Semibold
+                                Height: =34
+                                PaddingLeft: =0
+                                Width: =Parent.Width - 60
+                                Wrap: =false
+                                X: =30
+                                Y: =10
+              - SelectedRecordHeaderContainer1:
+                  Control: GroupContainer
+                  Variant: horizontalAutoLayoutContainer
+                  Properties:
+                    AlignInContainer: =AlignInContainer.Stretch
+                    Fill: =RGBA(255, 255, 255, 1)
+                    Height: =50
+                    LayoutAlignItems: =LayoutAlignItems.Center
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                  Children:
+                  - DeleteIconButton1:
+                      Control: Icon
+                      Properties:
+                        OnSelect: |-
+                          =UpdateContext({ deleteMode: true, deleteCancelled: false, selectedRecord: RecordsGallery1.Selected })
+                        Height: =50
+                        Icon: =Icon.Trash
+                        LayoutMinHeight: =64
+                        LayoutMinWidth: =64
+                        PaddingBottom: =12
+                        PaddingLeft: =12
+                        PaddingRight: =12
+                        PaddingTop: =12
+                        TabIndex: =0
+                        Visible: =And(!editMode, !newMode, !deleteMode)
+                        Width: =50
+                  - EditIconButton1:
+                      Control: Icon
+                      Properties:
+                        OnSelect: |-
+                          =UpdateContext({ editMode: true, selectedRecord: RecordsGallery1.Selected })
+                        Height: =50
+                        Icon: =Icon.Edit
+                        LayoutMinHeight: =64
+                        LayoutMinWidth: =64
+                        PaddingBottom: =12
+                        PaddingLeft: =12
+                        PaddingRight: =12
+                        PaddingTop: =12
+                        TabIndex: =0
+                        Visible: =And(!editMode, !newMode, !deleteMode)
+                        Width: =50
+                  - ResetFormButton1:
+                      Control: Icon
+                      Properties:
+                        OnSelect: |-
+                          =ResetForm(Form1); UpdateContext({ editMode: false, newMode: false });
+                        Height: =50
+                        Icon: =Icon.Cancel
+                        LayoutMinHeight: =64
+                        LayoutMinWidth: =64
+                        PaddingBottom: =12
+                        PaddingLeft: =12
+                        PaddingRight: =12
+                        PaddingTop: =12
+                        TabIndex: =0
+                        Visible: =Or(editMode, newMode)
+                        Width: =50
+                  - SubmitFormButton1:
+                      Control: Icon
+                      Properties:
+                        OnSelect: =SubmitForm(Form1)
+                        Height: =50
+                        Icon: =Icon.Check
+                        LayoutMinHeight: =64
+                        LayoutMinWidth: =64
+                        PaddingBottom: =12
+                        PaddingLeft: =12
+                        PaddingRight: =12
+                        PaddingTop: =12
+                        TabIndex: =0
+                        Visible: =Or(editMode, newMode)
+                        Width: =50
+                  - SelectedRecordTitle1:
+                      Control: Label
+                      Properties:
+                        Text: =RecordsGallery1.Selected.'Product ID'
+                        AlignInContainer: =AlignInContainer.Stretch
+                        FillPortions: =1
+                        FontWeight: =FontWeight.Semibold
+                        LayoutMinHeight: =40
+                        LayoutMinWidth: =150
+                        PaddingLeft: =30
+                  - BackIconButton1:
+                      Control: Icon
+                      Variant: Add
+                      Properties:
+                        OnSelect: |-
+                          =UpdateContext({ itemSelected: false })
+                        Height: =50
+                        Icon: =Icon.ChevronLeft
+                        LayoutMinHeight: =64
+                        LayoutMinWidth: =64
+                        PaddingBottom: =12
+                        PaddingLeft: =12
+                        PaddingRight: =12
+                        PaddingTop: =12
+                        TabIndex: =0
+                        Visible: =If(MainScreen1.Size = ScreenSize.Small, And(!editMode, !newMode, !deleteMode), false)
+                        Width: =50
+          - SidebarContainer1:
+              Control: GroupContainer
+              Variant: verticalAutoLayoutContainer
+              Properties:
+                AlignInContainer: =AlignInContainer.Stretch
+                Fill: =RGBA(255, 255, 255, 1)
+                FillPortions: =If(And(MainScreen1.Size = ScreenSize.Small, Or(newMode, editMode, itemSelected)), 0, 3)
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutGap: =10
+                LayoutMinHeight: =100
+                LayoutMinWidth: =250
+                LayoutMode: =LayoutMode.Auto
+                PaddingLeft: =16
+                PaddingRight: =16
+                PaddingTop: =10
+                Visible: =If(And(MainScreen1.Size = ScreenSize.Small, Or(newMode, editMode, itemSelected)), false, true)
+              Children:
+              - RecordsGallery1:
+                  Control: Gallery
+                  Variant: BrowseLayout_Vertical_TwoTextVariant_ver5.0
+                  Properties:
+                    OnSelect: |-
+                      =UpdateContext({ itemSelected: true, CurrentItem: ThisItem })
+                    Default: =CurrentItem
+                    Items: =Search([@Inventory], SearchInput1.Text, cra5a_productid, cra5a_productid,cra5a_productname)
+                    AlignInContainer: =AlignInContainer.Stretch
+                    DelayItemLoading: =true
+                    Fill: =RGBA(250, 250, 250, 1)
+                    FillPortions: =1
+                    Layout: =Layout.Vertical
+                    LayoutMinHeight: =287
+                    LoadingSpinner: =LoadingSpinner.Data
+                    TemplateFill: =If(Self.IsSelected, RGBA(230, 230, 230, 1), RGBA(0, 0, 0, 0))
+                    TemplatePadding: =0
+                    TemplateSize: =104
+                  Children:
+                  - Rectangle1:
+                      Control: Rectangle
+                      Properties:
+                        OnSelect: =Select(Parent)
+                        Height: =Parent.TemplateHeight - Separator1.Height
+                        Visible: =ThisItem.IsSelected
+                        Width: =4
+                  - Separator1:
+                      Control: Rectangle
+                      Properties:
+                        OnSelect: =Select(Parent)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        Height: =8
+                        Width: =Parent.TemplateWidth
+                        Y: =Parent.TemplateHeight - Self.Height
+                  - NextArrow1:
+                      Control: Icon
+                      Variant: ChevronRight
+                      Properties:
+                        OnSelect: =Select(Parent)
+                        AccessibleLabel: =Self.Tooltip
+                        Tooltip: ="View item details"
+                        Color: =RGBA(166, 166, 166, 1)
+                        Height: =50
+                        Icon: =Icon.ChevronRight
+                        PaddingBottom: =16
+                        PaddingLeft: =16
+                        PaddingRight: =16
+                        PaddingTop: =16
+                        Width: =50
+                        X: =Parent.TemplateWidth - Self.Width - 12
+                        Y: =(Parent.TemplateHeight / 2) - (Self.Height / 2)
+                  - Subtitle1:
+                      Control: Label
+                      Properties:
+                        OnSelect: =Select(Parent)
+                        Text: =ThisItem.Quantity
+                        Color: =RGBA(96, 94, 92, 1)
+                        FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+                        Height: =Self.Size * 1.8
+                        PaddingBottom: =0
+                        PaddingLeft: =12
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Size: =12
+                        VerticalAlign: =VerticalAlign.Top
+                        Width: =Title1.Width
+                        X: =Title1.X
+                        Y: =Title1.Y + Title1.Height
+                  - Title1:
+                      Control: Label
+                      Properties:
+                        OnSelect: =Select(Parent)
+                        Text: =ThisItem.'Product Name'
+                        FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+                        Height: =Self.Size * 1.8
+                        PaddingBottom: =0
+                        PaddingLeft: =12
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        VerticalAlign: =VerticalAlign.Top
+                        Width: =Parent.TemplateWidth - 86
+                        X: =16
+                        Y: =(Parent.TemplateHeight - (Self.Size * 1.8 + Subtitle1.Size * 1.8)) / 2
+              - RecordsListSeparator1:
+                  Control: Rectangle
+                  Properties:
+                    AlignInContainer: =AlignInContainer.Stretch
+                    Fill: =RGBA(225, 223, 221, 1)
+                    Height: =1
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =200
+              - NewRecordButtonBarContainer1:
+                  Control: GroupContainer
+                  Variant: horizontalAutoLayoutContainer
+                  Properties:
+                    AlignInContainer: =AlignInContainer.Stretch
+                    Height: =44
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                  Children:
+                  - NewRecordLabel1:
+                      Control: Label
+                      Properties:
+                        Text: ="New"
+                        FillPortions: =1
+                        Height: =44
+                        LayoutMinHeight: =40
+                        LayoutMinWidth: =150
+                  - NewRecordAddIcon1:
+                      Control: Icon
+                      Properties:
+                        OnSelect: |-
+                          =NewForm(Form1); UpdateContext({ newMode: true });
+                        Height: =44
+                        Icon: =Icon.Add
+                        LayoutMinHeight: =64
+                        LayoutMinWidth: =64
+                        PaddingBottom: =10
+                        PaddingLeft: =10
+                        PaddingRight: =10
+                        PaddingTop: =10
+                        Width: =44
+              - SearchContainer1:
+                  Control: GroupContainer
+                  Variant: horizontalAutoLayoutContainer
+                  Properties:
+                    AlignInContainer: =AlignInContainer.Stretch
+                    Fill: =RGBA(245, 245, 245, 1)
+                    Height: =44
+                    LayoutMinHeight: =100
+                    LayoutMode: =LayoutMode.Auto
+                  Children:
+                  - SearchIcon1:
+                      Control: Icon
+                      Properties:
+                        Height: =44
+                        Icon: =Icon.Search
+                        LayoutMinHeight: =64
+                        LayoutMinWidth: =64
+                        PaddingBottom: =10
+                        PaddingLeft: =10
+                        PaddingRight: =10
+                        PaddingTop: =10
+                        Width: =44
+                  - SearchInput1:
+                      Control: Text
+                      Properties:
+                        Default: =""
+                        HintText: ="Search"
+                        BorderStyle: =BorderStyle.None
+                        Fill: =RGBA(0, 0, 0, 0)
+                        FillPortions: =1
+                        Height: =44
+                        HoverFill: =RGBA(0, 0, 0, 0)
+                        LayoutMinHeight: =40
+                        PressedFill: =RGBA(0, 0, 0, 0)
+      - TableNameContainer1:
+          Control: GroupContainer
+          Variant: horizontalAutoLayoutContainer
+          Properties:
+            AlignInContainer: =AlignInContainer.Stretch
+            Height: =68
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+          Children:
+          - Offline sync Icon1:
+              Control: Icon
+              Variant: Globe
+              Properties:
+                OnSelect: =ShowHostInfo(HostInfo.OfflineSync)
+                AccessibleLabel: ="Offline sync status icon"
+                Tooltip: =If(Connection.Connected,"Connected","Offline")
+                AlignInContainer: =AlignInContainer.Stretch
+                Color: =RGBA(255, 255, 255, 1)
+                Fill: =RGBA(0, 120, 212, 1)
+                Icon: |-
+                  =Switch(Connection.Sync,
+                     ConnectionSync.Connected, Icon.Globe, 
+                     ConnectionSync.ConnectedWithWarning, Icon.GlobeWarning,
+                     ConnectionSync.ConnectedPendingUpsync, Icon.GlobeChangesPending,
+                     ConnectionSync.ConnectedError, Icon.GlobeError,
+                     ConnectionSync.ConnectedRefresh, Icon.GlobeRefresh,
+                     ConnectionSync.NotConnected, Icon.GlobeNotConnected, 
+                     ConnectionSync.NotConnectedWithWarning, Icon.GlobeWarning,
+                     ConnectionSync.NotConnectedPendingUpsync, Icon.GlobeChangesPending,
+                     ConnectionSync.NotConnectedSyncError, Icon.GlobeError)
+                LayoutMinHeight: =32
+                LayoutMinWidth: =64
+                PaddingLeft: =5
+                PaddingRight: =15
+                TabIndex: =0
+                Visible: =Host.OfflineEnabled
+                Width: =52
+          - TableNameLabel1:
+              Control: Label
+              Properties:
+                Text: =DataSourceInfo([@Inventory], DataSourceInfo.DisplayName)
+                AlignInContainer: =AlignInContainer.Stretch
+                Color: =RGBA(255, 255, 255, 1)
+                Fill: =RGBA(0, 120, 212, 1)
+                FillPortions: =1
+                FontWeight: =FontWeight.Semibold
+                Height: =68
+                LayoutMinHeight: =40
+                LayoutMinWidth: =150
+                PaddingBottom: =16
+                PaddingLeft: =16
+                PaddingRight: =16
+                PaddingTop: =16
+                Size: =16

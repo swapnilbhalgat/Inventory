@@ -1,0 +1,3 @@
+{
+  "AppFromDataMetaDataIdsToEntityNameMappings": "{\"%DataSourceName.AFD%\":\"Inventory\",\"%DataSourceValue.AFD%\":\"[@Inventory]\",\"%SortFieldName.AFD%\":\"\\\"cra5a_productid\\\"\",\"%FilterFieldName.AFD%\":\"cra5a_productid\",\"%PrimaryNameField.AFD%\":\"cra5a_productid\",\"%PrimaryNameFieldDisplayName.AFD%\":\"'Product ID'\",\"%SearchFieldName.AFD%\":\"cra5a_productid,cra5a_productname\",\"%StartsWithFieldName.AFD%\":\"cra5a_productid\",\"%DeleteConfirmFieldName.AFD%\":\"cra5a_productid\",\"%SortDescending.AFD%\":\"SortDescending1\",\"%CopilotSinglePageScreen.ID%\":\"MainScreen1\",\"%BrowseContainer.ID%\":\"BrowseGallery1\",\"%DetailEditContainer.ID%\":\"EditForm1\"}"
+}

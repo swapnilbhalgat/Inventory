@@ -1,0 +1,108 @@
+[
+  {
+    "CdsFCBContext": "{\"FileType\":true,\"ImageExternalStorage\":true}",
+    "EntitySetName": "cra5a_inventory1s",
+    "IsHidden": false,
+    "IsSampleData": false,
+    "IsWritable": true,
+    "LogicalName": "cra5a_inventory1",
+    "Name": "Inventory",
+    "NativeCDSDataSourceInfoNameMapping": {
+      "_ownerid_value": "Owner",
+      "cra5a_category": "Category",
+      "cra5a_inventory1_AsyncOperations": "System Jobs",
+      "cra5a_inventory1_BulkDeleteFailures": "Bulk Delete Failures",
+      "cra5a_inventory1_MailboxTrackingFolders": "Mailbox Auto Tracking Folders",
+      "cra5a_inventory1_PrincipalObjectAttributeAccesses": "Field Sharing",
+      "cra5a_inventory1_ProcessSession": "Process Sessions",
+      "cra5a_inventory1_SyncErrors": "Sync Errors",
+      "cra5a_inventory1id": "Inventory",
+      "cra5a_price": "Price",
+      "cra5a_price_base": "Price (Base)",
+      "cra5a_productid": "Product ID",
+      "cra5a_productname": "Product Name",
+      "cra5a_quantity": "Quantity",
+      "createdby": "Created By",
+      "createdon": "Created On",
+      "createdonbehalfby": "Created By (Delegate)",
+      "exchangerate": "Exchange Rate",
+      "importsequencenumber": "Import Sequence Number",
+      "modifiedby": "Modified By",
+      "modifiedon": "Modified On",
+      "modifiedonbehalfby": "Modified By (Delegate)",
+      "overriddencreatedon": "Record Created On",
+      "owningbusinessunit": "Owning Business Unit",
+      "owningteam": "Owning Team",
+      "owninguser": "Owning User",
+      "statecode": "Status",
+      "statuscode": "Status Reason",
+      "timezoneruleversionnumber": "Time Zone Rule Version Number",
+      "transactioncurrencyid": "Currency",
+      "utcconversiontimezonecode": "UTC Conversion Time Zone Code",
+      "versionnumber": "Version Number"
+    },
+    "PreferredName": "Inventory",
+    "Type": "NativeCDSDataSourceInfo"
+  },
+  {
+    "DisplayName": "Category (Inventory)",
+    "Name": "cra5a_inventory1_cra5a_category",
+    "OptionSetInfoNameMapping": {
+      "280190000": "Category 1",
+      "280190001": "Category 2",
+      "280190002": "Category 3"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cra5a_category",
+        "OptionSetReferenceEntityName": "Inventory"
+      }
+    },
+    "OptionSetTypeKey": "MultiSelectPicklistType",
+    "RelatedColumnInvariantName": "cra5a_category",
+    "RelatedEntityName": "Inventory",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Status (Inventory)",
+    "Name": "cra5a_inventory1_statecode",
+    "OptionSetInfoNameMapping": {
+      "0": "Active",
+      "1": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statecode",
+        "OptionSetReferenceEntityName": "Inventory"
+      }
+    },
+    "OptionSetTypeKey": "StateType",
+    "RelatedColumnInvariantName": "statecode",
+    "RelatedEntityName": "Inventory",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Status Reason (Inventory)",
+    "Name": "cra5a_inventory1_statuscode",
+    "OptionSetInfoNameMapping": {
+      "1": "Active",
+      "2": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statuscode",
+        "OptionSetReferenceEntityName": "Inventory"
+      }
+    },
+    "OptionSetTypeKey": "StatusType",
+    "RelatedColumnInvariantName": "statuscode",
+    "RelatedEntityName": "Inventory",
+    "Type": "OptionSetInfo"
+  }
+]
